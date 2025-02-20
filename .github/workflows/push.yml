@@ -1,0 +1,39 @@
+name: Notification par e-mail après push
+
+on:
+  push:
+    branches:
+      - main # Ou la branche que vous souhaitez surveiller
+
+jobs:
+  notifier:
+    runs-on: windows-latest
+    steps:
+      - name: Envoyer un e-mail
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const nodemailer = require('nodemailer');
+
+            const transporter = nodemailer.createTransport({
+              service: 'gmail', // Ou votre fournisseur de messagerie
+              auth: {
+                user: '${{ rkammileuga@gmail.com }}',
+                pass: '${{ 1002 Ryda}}',
+              },
+            });
+
+            const mailOptions = {
+              from: '${{  rkammileuga@gmail.com }}',
+              to: '${{  rkammileuga@gmail.com }}',
+              subject: 'Nouveau fichier poussé',
+              text: `Un nouveau fichier a été poussé vers le dépôt ${{ github.repository }} par ${{ github.actor }}.`,
+            };
+
+            transporter.sendMail(mailOptions, function (error, info) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log('E-mail envoyé: ' + info.response);
+              }
+            });

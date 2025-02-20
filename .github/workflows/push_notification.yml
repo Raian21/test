@@ -1,0 +1,16 @@
+name: Notification après push
+
+on:
+  push:
+    branches:
+      - main # Ou la branche que vous souhaitez surveiller
+
+jobs:
+  notifier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Envoyer une notification
+        uses: appleboy/ghaction-telegram@v2
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: Un nouveau fichier a été poussé vers le dépôt ${{ github.repository }} par ${{ github.actor }}.
