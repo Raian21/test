@@ -1,14 +1,28 @@
+The error indicates that the `nodemailer` module is not found. To fix this, you need to ensure the module is installed before running the script. Update your workflow file to include a step to install `nodemailer`:
+
+```yaml
 name: Notification par e-mail après push
 
 on:
   push:
     branches:
-      - main # Ou la branche que vous souhaitez surveiller
+      - main
 
 jobs:
   notifier:
     runs-on: windows-latest
     steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install nodemailer
+
       - name: Envoyer un e-mail
         uses: actions/github-script@v6
         with:
@@ -16,10 +30,10 @@ jobs:
             const nodemailer = require('nodemailer');
 
             const transporter = nodemailer.createTransport({
-              service: 'gmail', // Ou votre fournisseur de messagerie
+              service: 'gmail',
               auth: {
                 user: '${{ secrets.GMAIL_USER }}',
-                pass: '${{ secrets.GMAIL_PASSWORD}}',
+                pass: '${{ secrets.GMAIL_PASSWORD }}',
               },
             });
 
@@ -37,3 +51,6 @@ jobs:
                 console.log('E-mail envoyé: ' + info.response);
               }
             });
+```
+
+This ensures that `nodemailer` is installed before your script tries to use it.
