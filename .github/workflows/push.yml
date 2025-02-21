@@ -18,14 +18,14 @@ jobs:
             const transporter = nodemailer.createTransport({
               service: 'gmail', // Ou votre fournisseur de messagerie
               auth: {
-                user: '${{ rkammileuga@gmail.com }}',
-                pass: '${{ 1002 Ryda}}',
+                user: '${{ secrets.GMAIL_USER }}',
+                pass: '${{ secrets.GMAIL_PASSWORD}}',
               },
             });
 
             const mailOptions = {
-              from: '${{  rkammileuga@gmail.com }}',
-              to: '${{  rkammileuga@gmail.com }}',
+              from: '${{  secrets.GMAIL_USER }}',
+              to: '${{  secrets.RECIPIENT_EMAIL }}',
               subject: 'Nouveau fichier poussé',
               text: `Un nouveau fichier a été poussé vers le dépôt ${{ github.repository }} par ${{ github.actor }}.`,
             };
