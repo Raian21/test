@@ -49,6 +49,3 @@ jobs:
                 console.log('E-mail envoyé: ' + info.response);
               }
             });
-```
-
-This ensures that `nodemailer` is installed before your script tries to use it.
