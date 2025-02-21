@@ -1,10 +1,9 @@
-
 name: Notification par e-mail après push
 
 on:
   push:
     branches:
-      - main
+      - main  # Vous pouvez spécifier la branche souhaitée
 
 jobs:
   notifier:
@@ -13,14 +12,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install nodemailer
-
       - name: Envoyer un e-mail
         uses: actions/github-script@v6
         with:
@@ -28,7 +19,9 @@ jobs:
             const nodemailer = require('nodemailer');
 
             const transporter = nodemailer.createTransport({
-              service: 'gmail',
+              host: 'smtp.gmail.com',  // Ajout du serveur SMTP
+              port: 587,  // Ajout du port SMTP
+              secure: false, // true for 465, false for other ports
               auth: {
                 user: '${{ secrets.GMAIL_USER }}',
                 pass: '${{ secrets.GMAIL_PASSWORD }}',
@@ -36,8 +29,8 @@ jobs:
             });
 
             const mailOptions = {
-              from: '${{  secrets.GMAIL_USER }}',
-              to: '${{  secrets.RECIPIENT_EMAIL }}',
+              from: '${{ secrets.GMAIL_USER }}',
+              to: '${{ secrets.RECIPIENT_EMAIL }}',
               subject: 'Nouveau fichier poussé',
               text: `Un nouveau fichier a été poussé vers le dépôt ${{ github.repository }} par ${{ github.actor }}.`,
             };
