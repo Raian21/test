@@ -1,6 +1,4 @@
-The error indicates that the `nodemailer` module is not found. To fix this, you need to ensure the module is installed before running the script. Update your workflow file to include a step to install `nodemailer`:
 
-```yaml
 name: Notification par e-mail après push
 
 on:
